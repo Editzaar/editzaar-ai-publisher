@@ -25,9 +25,8 @@ def ensure_single_instance():
     try:
         _lock_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         _lock_socket.bind(('127.0.0.1', 59876))
-    except Exception:
-        print("[CRITICAL] Another instance of Telegram Bot is already running! Exiting duplicate process.", flush=True)
-        sys.exit(0)
+    except Exception as e:
+        print(f"[Single Instance Notice] Socket bind: {e}", flush=True)
 
 def send_telegram_message(chat_id, text, parse_mode="HTML"):
     try:
