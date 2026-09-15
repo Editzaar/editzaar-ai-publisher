@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 import threading
 
@@ -11,15 +11,15 @@ import web_cms
 
 def start_telegram_bot():
     try:
-        print([Main] Launching Telegram Bot thread..., flush=True)
+        print('[Main] Launching Telegram Bot thread...', flush=True)
         telegram_bot.run_telegram_bot()
     except Exception as e:
-        print(f[Main Bot Error]: {e}, flush=True)
+        print(f'[Main Bot Error]: {e}', flush=True)
 
-if __name__ == __main__:
+if __name__ == '__main__':
     bot_thread = threading.Thread(target=start_telegram_bot, daemon=True)
     bot_thread.start()
     
-    port = int(os.environ.get(PORT, 3000))
-    print(f[Main] Launching Web CMS on port {port}..., flush=True)
+    port = int(os.environ.get('PORT', 3000))
+    print(f'[Main] Launching Web CMS on port {port}...', flush=True)
     web_cms.run_server(port=port)
