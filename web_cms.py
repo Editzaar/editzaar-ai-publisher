@@ -181,7 +181,7 @@ class CMSHandler(BaseHTTPRequestHandler):
             self.end_headers()
 
 def run_server(port=3000):
-    server_address = ('127.0.0.1', port)
+    server_address = ('0.0.0.0', port)
     httpd = ThreadingHTTPServer(server_address, CMSHandler)
     print(f"==================================================", flush=True)
     print(f"Editzaar AI Blogger CMS Dashboard is running!")
