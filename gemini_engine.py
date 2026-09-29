@@ -88,22 +88,48 @@ def call_gemini_api(prompt, system_instruction=""):
 
 def generate_custom_3d_thumbnail(title_text, subtitle_text="2026 CREATOR MASTERCLASS", theme="gold"):
     """
-    Renders high-CTR 1280x720 16:9 3D typography thumbnail.
+    Renders high-CTR 1280x720 16:9 thumbnail with topic-reflective contextual visual motifs:
+    - Cinema/Films: 35mm film strips, 2.39:1 aspect markers, 24fps cinema cues
+    - Audio/Songs: Multi-band equalizer spectrum bars, vinyl grooves, dB peak meters
+    - Color Grading: 3-way Lift/Gamma/Gain color wheels, node tree graphs, split-screen LUT line
+    - AI Tools: Neural network lattice, cyber holographic brackets, AI diffusion cues
+    - Growth/Hacks: Multi-track timeline (V1/V2, A1/A2 audio waveforms), exponential retention curves
     """
     width, height = 1280, 720
     img = Image.new("RGB", (width, height), color=(10, 12, 18))
     draw = ImageDraw.Draw(img)
 
+    t_lower = (title_text + " " + subtitle_text).lower()
+
+    # Determine Domain
+    is_cinema = any(k in t_lower for k in ["movie", "film", "pushpa", "kalki", "stree", "cinema", "trailer", "blockbuster"])
+    is_audio = any(k in t_lower for k in ["song", "music", "audio", "sound", "track", "podcast", "mic", "beat", "voice"])
+    is_color = any(k in t_lower for k in ["color", "grade", "lut", "davinci", "resolve", "film look"])
+    is_ai = any(k in t_lower for k in ["ai tool", "generation", "sora", "runway", "kling", "luma", "pika", "ai video"])
+    is_growth = any(k in t_lower for k in ["grow", "viral", "views", "retention", "hook", "hack", "trick", "pacing", "capcut", "reels", "trending"])
+
     themes = {
-        "gold": ((24, 16, 10), (245, 158, 11), (255, 235, 59)),
+        "gold": ((26, 18, 10), (245, 158, 11), (255, 235, 59)),
         "purple": ((18, 10, 32), (168, 85, 247), (250, 204, 21)),
         "cyan": ((10, 22, 34), (6, 182, 212), (255, 255, 255)),
         "red": ((28, 10, 14), (239, 68, 68), (252, 211, 77)),
         "green": ((10, 24, 16), (34, 197, 94), (250, 204, 21)),
         "amber": ((24, 14, 8), (245, 158, 11), (254, 240, 138))
     }
+    if is_cinema:
+        theme = "gold"
+    elif is_audio:
+        theme = "cyan"
+    elif is_color:
+        theme = "amber"
+    elif is_ai:
+        theme = "purple"
+    elif is_growth:
+        theme = "red"
+
     bg_color, accent_color, highlight_color = themes.get(theme, themes["gold"])
 
+    # 1. Deep Radial Ambient Glow
     for r in range(480, 0, -12):
         glow = (
             int(bg_color[0] + (accent_color[0] - bg_color[0]) * (1 - r / 480)),
@@ -112,66 +138,137 @@ def generate_custom_3d_thumbnail(title_text, subtitle_text="2026 CREATOR MASTERC
         )
         draw.ellipse([width//2 - r*2, height//2 - r, width//2 + r*2, height//2 + r], fill=glow)
 
-    for x in range(0, width, 70):
-        draw.line([(x, 0), (x, height)], fill=(28, 35, 52), width=1)
-    for y in range(0, height, 70):
-        draw.line([(0, y), (width, y)], fill=(28, 35, 52), width=1)
+    # 2. Studio Grid Pattern
+    for x in range(0, width, 80):
+        draw.line([(x, 0), (x, height)], fill=(24, 30, 46), width=1)
+    for y in range(0, height, 80):
+        draw.line([(0, y), (width, y)], fill=(24, 30, 46), width=1)
 
-    draw.rounded_rectangle([20, 20, width - 20, height - 20], radius=22, outline=accent_color, width=4)
+    # 3. Contextual Domain Visual Motifs
+    if is_cinema:
+        # Perforated 35mm film strips top and bottom
+        draw.rectangle([0, 0, width, 32], fill=(8, 10, 14))
+        draw.rectangle([0, height - 32, width, height], fill=(8, 10, 14))
+        for sx in range(20, width - 20, 45):
+            draw.rounded_rectangle([sx, 8, sx + 24, 24], radius=3, fill=(35, 42, 58))
+            draw.rounded_rectangle([sx, height - 24, sx + 24, height - 8], radius=3, fill=(35, 42, 58))
+        # Anamorphic lens flare streak
+        draw.line([(60, height//2), (width - 60, height//2)], fill=(245, 158, 11, 40), width=2)
+    elif is_audio:
+        # Multi-band equalizer spectrum bars at bottom
+        for b_idx, bx in enumerate(range(80, width - 80, 24)):
+            bar_h = int(30 + ((b_idx * 17) % 85))
+            draw.rounded_rectangle([bx, height - 60 - bar_h, bx + 16, height - 60], radius=4, fill=(6, 182, 212, 180))
+        # Vinyl record grooves on left
+        for vr in range(120, 40, -18):
+            draw.arc([-80 - vr, height//2 - vr, -80 + vr, height//2 + vr], 270, 90, fill=(35, 45, 65), width=2)
+    elif is_color:
+        # Color Wheels (Lift, Gamma, Gain) representation at bottom right
+        wheel_y = height - 90
+        for w_idx, (wx, wcol) in enumerate([(width - 280, (239, 68, 68)), (width - 190, (34, 197, 94)), (width - 100, (6, 182, 212))]):
+            draw.ellipse([wx - 32, wheel_y - 32, wx + 32, wheel_y + 32], outline=(60, 75, 105), width=2)
+            draw.ellipse([wx - 6, wheel_y - 6, wx + 6, wheel_y + 6], fill=wcol)
+        # Node tree diagram at top left
+        draw.rounded_rectangle([60, 50, 130, 80], radius=6, fill=(15, 23, 42), outline=(245, 158, 11), width=2)
+        draw.line([(130, 65), (170, 65)], fill=(245, 158, 11), width=2)
+        draw.rounded_rectangle([170, 50, 240, 80], radius=6, fill=(15, 23, 42), outline=(6, 182, 212), width=2)
+    elif is_ai:
+        # Neural network mesh at bottom
+        for nx in range(100, width - 100, 120):
+            draw.ellipse([nx - 8, height - 80 - 8, nx + 8, height - 80 + 8], fill=(168, 85, 247))
+            draw.line([(nx, height - 80), (nx + 120, height - 80)], fill=(80, 50, 120), width=2)
+    else:
+        # Authentic Video & Audio Timeline Tracks
+        draw.line([(60, height - 120), (width - 60, height - 120)], fill=(40, 50, 75), width=2)
+        draw.rounded_rectangle([100, height - 110, 360, height - 75], radius=6, fill=(168, 85, 247), outline=(255, 255, 255), width=1)
+        draw.rounded_rectangle([380, height - 110, 750, height - 75], radius=6, fill=(6, 182, 212), outline=(255, 255, 255), width=1)
+        draw.rounded_rectangle([770, height - 110, 1180, height - 75], radius=6, fill=(245, 158, 11), outline=(255, 255, 255), width=1)
+        # Playhead needle
+        draw.line([(550, height - 125), (550, height - 60)], fill=(239, 68, 68), width=3)
+        draw.polygon([(544, height - 135), (556, height - 135), (550, height - 125)], fill=(239, 68, 68))
 
-    badge_w = 440
-    draw.rounded_rectangle([width//2 - badge_w//2, 45, width//2 + badge_w//2, 100], radius=27, fill=(255, 75, 43))
+    # 4. Camera Viewfinder Brackets
+    bracket_len = 36
+    draw.line([(35, 35), (35 + bracket_len, 35)], fill=accent_color, width=3)
+    draw.line([(35, 35), (35, 35 + bracket_len)], fill=accent_color, width=3)
+    draw.line([(width - 35, 35), (width - 35 - bracket_len, 35)], fill=accent_color, width=3)
+    draw.line([(width - 35, 35), (width - 35, 35 + bracket_len)], fill=accent_color, width=3)
+    draw.line([(35, height - 35), (35 + bracket_len, height - 35)], fill=accent_color, width=3)
+    draw.line([(35, height - 35), (35, height - 35 - bracket_len)], fill=accent_color, width=3)
+    draw.line([(width - 35, height - 35), (width - 35 - bracket_len, height - 35)], fill=accent_color, width=3)
+    draw.line([(width - 35, height - 35), (width - 35, height - 35 - bracket_len)], fill=accent_color, width=3)
+
+    # Outer Glowing Frame
+    draw.rounded_rectangle([20, 20, width - 20, height - 20], radius=22, outline=accent_color, width=3)
+
+    # 5. Top Brand Badge
+    badge_w = 460
+    draw.rounded_rectangle([width//2 - badge_w//2, 45, width//2 + badge_w//2, 98], radius=26, fill=(255, 75, 43))
     
     try:
         font_badge = ImageFont.truetype("impact.ttf", 26)
-        font_main = ImageFont.truetype("impact.ttf", 60)
-        font_sub = ImageFont.truetype("arialbd.ttf", 28)
+        font_main = ImageFont.truetype("impact.ttf", 58)
+        font_sub = ImageFont.truetype("arialbd.ttf", 26)
+        font_hud = ImageFont.truetype("impact.ttf", 18)
     except:
         try:
             font_badge = ImageFont.truetype("arialbd.ttf", 24)
             font_main = ImageFont.truetype("arialbd.ttf", 50)
-            font_sub = ImageFont.truetype("arial.ttf", 26)
+            font_sub = ImageFont.truetype("arial.ttf", 24)
+            font_hud = ImageFont.load_default()
         except:
             font_badge = ImageFont.load_default()
             font_main = ImageFont.load_default()
             font_sub = ImageFont.load_default()
+            font_hud = ImageFont.load_default()
 
-    badge_label = "EDITZAAR MASTERCLASS 2026"
+    badge_label = "EDITZAAR 2026 MASTERCLASS"
     bbox = draw.textbbox((0, 0), badge_label, font=font_badge)
     bw = bbox[2] - bbox[0]
-    draw.text(((width - bw) // 2, 58), badge_label, fill=(255, 255, 255), font=font_badge)
+    draw.text(((width - bw) // 2, 57), badge_label, fill=(255, 255, 255), font=font_badge)
 
+    # Top HUD Tags
+    draw.ellipse([60, 56, 74, 70], fill=(239, 68, 68))
+    draw.text((82, 54), "REC [4K 60FPS]", fill=(255, 255, 255), font=font_hud)
+    draw.text((width - 230, 54), "MASTER TIMELINE", fill=accent_color, font=font_hud)
+
+    # 6. Center Glassmorphism Backdrop for Text Readability
     clean_txt = title_text.upper().replace("| EDITZAAR", "").strip()
     words = clean_txt.split()
     lines = []
     curr = []
     for w in words:
         curr.append(w)
-        if len(" ".join(curr)) > 20:
+        if len(" ".join(curr)) > 22:
             lines.append(" ".join(curr))
             curr = []
     if curr:
         lines.append(" ".join(curr))
     lines = lines[:3]
 
-    total_h = len(lines) * 80
-    start_y = (height - total_h) // 2 + 15
+    total_h = len(lines) * 78
+    start_y = (height - total_h) // 2 + 10
+
+    # Draw semi-dark card behind text for maximum contrast
+    card_h = total_h + 120
+    draw.rounded_rectangle([70, start_y - 25, width - 70, start_y + card_h - 25], radius=20, fill=(12, 16, 24), outline=accent_color, width=2)
 
     for idx, line in enumerate(lines):
         line_bbox = draw.textbbox((0, 0), line, font=font_main)
         lw = line_bbox[2] - line_bbox[0]
         tx = (width - lw) // 2
-        ty = start_y + idx * 80
+        ty = start_y + idx * 78
         draw.text((tx + 4, ty + 4), line, fill=(0, 0, 0), font=font_main)
-        color = (255, 255, 255) if idx % 2 == 0 else highlight_color
+        color = (255, 255, 255) if idx == 0 else highlight_color
         draw.text((tx, ty), line, fill=color, font=font_main)
 
+    # Bottom Subtitle Ribbon
     sub_bbox = draw.textbbox((0, 0), subtitle_text.upper(), font=font_sub)
     sw = sub_bbox[2] - sub_bbox[0]
     sub_x = (width - sw) // 2
-    sub_y = height - 105
+    sub_y = start_y + total_h + 20
 
-    draw.rounded_rectangle([sub_x - 25, sub_y - 6, sub_x + sw + 25, sub_y + 40], radius=18, fill=(15, 23, 42), outline=accent_color, width=2)
+    draw.rounded_rectangle([sub_x - 25, sub_y - 6, sub_x + sw + 25, sub_y + 38], radius=18, fill=(18, 26, 40), outline=accent_color, width=2)
     draw.text((sub_x, sub_y), subtitle_text.upper(), fill=accent_color, font=font_sub)
 
     buffer = io.BytesIO()
