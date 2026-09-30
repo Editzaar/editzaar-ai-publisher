@@ -341,6 +341,17 @@ Write the full JSON object containing the complete, deeply structured masterclas
 
 <hr style="border: 0; height: 1px; background: #eee; margin: 35px 0;"/>
 
+<!-- WhatsApp Channel CTA Box -->
+<div style="background-color: #f0fdf4; border: 2px solid #22c55e; padding: 24px; border-radius: 12px; margin: 30px 0; text-align: center;">
+    <h3 style="margin-top: 0; font-size: 20px; color: #14532d; font-weight: 700;">Get Instant Updates on WhatsApp</h3>
+    <p style="font-size: 15px; line-height: 1.6; max-width: 580px; margin: 8px auto 18px auto; color: #166534;">
+        Join our official WhatsApp Channel to get regular video editing guides, creator growth tips, and tool updates sent straight to your phone.
+    </p>
+    <a href="https://whatsapp.com/channel/0029VbBrdrPDJ6H2bPcHn53B" target="_blank" rel="noopener noreferrer" style="background-color: #22c55e; color: #ffffff; padding: 12px 28px; text-decoration: none; font-weight: bold; border-radius: 30px; display: inline-block; font-size: 15px;">
+        Join WhatsApp Channel →
+    </a>
+</div>
+
 <!-- Branded Editzaar CTA Box -->
 <div style="background-color: #f8f9fa; border: 2px solid #ff4b2b; padding: 25px; border-radius: 12px; margin: 35px 0; text-align: center;">
     <h3 style="margin-top: 0; font-size: 22px; color: #111;">Want Viral Video Edits for Your Brand?</h3>
