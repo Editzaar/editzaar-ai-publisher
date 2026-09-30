@@ -187,92 +187,23 @@ def generate_custom_3d_thumbnail(title_text, subtitle_text="2026 CREATOR MASTERC
         draw.line([(550, height - 125), (550, height - 60)], fill=(239, 68, 68), width=3)
         draw.polygon([(544, height - 135), (556, height - 135), (550, height - 125)], fill=(239, 68, 68))
 
-    # 4. Camera Viewfinder Brackets
-    bracket_len = 36
-    draw.line([(35, 35), (35 + bracket_len, 35)], fill=accent_color, width=3)
-    draw.line([(35, 35), (35, 35 + bracket_len)], fill=accent_color, width=3)
-    draw.line([(width - 35, 35), (width - 35 - bracket_len, 35)], fill=accent_color, width=3)
-    draw.line([(width - 35, 35), (width - 35, 35 + bracket_len)], fill=accent_color, width=3)
-    draw.line([(35, height - 35), (35 + bracket_len, height - 35)], fill=accent_color, width=3)
-    draw.line([(35, height - 35), (35, height - 35 - bracket_len)], fill=accent_color, width=3)
-    draw.line([(width - 35, height - 35), (width - 35 - bracket_len, height - 35)], fill=accent_color, width=3)
-    draw.line([(width - 35, height - 35), (width - 35, height - 35 - bracket_len)], fill=accent_color, width=3)
+    # Pure artistic minimalist aesthetic - ZERO text, ZERO badges, ZERO HUD tags
+    # Soft warm lighting and subtle organic studio atmosphere
+    # Warm earthy vignette
+    for r in range(300, 0, -10):
+        alpha = int(40 * (1 - r / 300))
+        glow = (
+            int(bg_color[0] + (accent_color[0] - bg_color[0]) * 0.4),
+            int(bg_color[1] + (accent_color[1] - bg_color[1]) * 0.4),
+            int(bg_color[2] + (accent_color[2] - bg_color[2]) * 0.4)
+        )
+        draw.ellipse([width//2 - r*2, height//2 - r, width//2 + r*2, height//2 + r], fill=glow)
 
-    # Outer Glowing Frame
-    draw.rounded_rectangle([20, 20, width - 20, height - 20], radius=22, outline=accent_color, width=3)
-
-    # 5. Top Brand Badge
-    badge_w = 460
-    draw.rounded_rectangle([width//2 - badge_w//2, 45, width//2 + badge_w//2, 98], radius=26, fill=(255, 75, 43))
-    
-    try:
-        font_badge = ImageFont.truetype("impact.ttf", 26)
-        font_main = ImageFont.truetype("impact.ttf", 58)
-        font_sub = ImageFont.truetype("arialbd.ttf", 26)
-        font_hud = ImageFont.truetype("impact.ttf", 18)
-    except:
-        try:
-            font_badge = ImageFont.truetype("arialbd.ttf", 24)
-            font_main = ImageFont.truetype("arialbd.ttf", 50)
-            font_sub = ImageFont.truetype("arial.ttf", 24)
-            font_hud = ImageFont.load_default()
-        except:
-            font_badge = ImageFont.load_default()
-            font_main = ImageFont.load_default()
-            font_sub = ImageFont.load_default()
-            font_hud = ImageFont.load_default()
-
-    badge_label = "EDITZAAR 2026 MASTERCLASS"
-    bbox = draw.textbbox((0, 0), badge_label, font=font_badge)
-    bw = bbox[2] - bbox[0]
-    draw.text(((width - bw) // 2, 57), badge_label, fill=(255, 255, 255), font=font_badge)
-
-    # Top HUD Tags
-    draw.ellipse([60, 56, 74, 70], fill=(239, 68, 68))
-    draw.text((82, 54), "REC [4K 60FPS]", fill=(255, 255, 255), font=font_hud)
-    draw.text((width - 230, 54), "MASTER TIMELINE", fill=accent_color, font=font_hud)
-
-    # 6. Center Glassmorphism Backdrop for Text Readability
-    clean_txt = title_text.upper().replace("| EDITZAAR", "").strip()
-    words = clean_txt.split()
-    lines = []
-    curr = []
-    for w in words:
-        curr.append(w)
-        if len(" ".join(curr)) > 22:
-            lines.append(" ".join(curr))
-            curr = []
-    if curr:
-        lines.append(" ".join(curr))
-    lines = lines[:3]
-
-    total_h = len(lines) * 78
-    start_y = (height - total_h) // 2 + 10
-
-    # Draw semi-dark card behind text for maximum contrast
-    card_h = total_h + 120
-    draw.rounded_rectangle([70, start_y - 25, width - 70, start_y + card_h - 25], radius=20, fill=(12, 16, 24), outline=accent_color, width=2)
-
-    for idx, line in enumerate(lines):
-        line_bbox = draw.textbbox((0, 0), line, font=font_main)
-        lw = line_bbox[2] - line_bbox[0]
-        tx = (width - lw) // 2
-        ty = start_y + idx * 78
-        draw.text((tx + 4, ty + 4), line, fill=(0, 0, 0), font=font_main)
-        color = (255, 255, 255) if idx == 0 else highlight_color
-        draw.text((tx, ty), line, fill=color, font=font_main)
-
-    # Bottom Subtitle Ribbon
-    sub_bbox = draw.textbbox((0, 0), subtitle_text.upper(), font=font_sub)
-    sw = sub_bbox[2] - sub_bbox[0]
-    sub_x = (width - sw) // 2
-    sub_y = start_y + total_h + 20
-
-    draw.rounded_rectangle([sub_x - 25, sub_y - 6, sub_x + sw + 25, sub_y + 38], radius=18, fill=(18, 26, 40), outline=accent_color, width=2)
-    draw.text((sub_x, sub_y), subtitle_text.upper(), fill=accent_color, font=font_sub)
+    # Subtle elegant border
+    draw.rounded_rectangle([24, 24, width - 24, height - 24], radius=16, outline=(45, 55, 75), width=2)
 
     buffer = io.BytesIO()
-    img.save(buffer, format="JPEG", quality=80, optimize=True)
+    img.save(buffer, format="JPEG", quality=85, optimize=True)
     return buffer.getvalue()
 
 def generate_deep_article_with_gemini(raw_topic, custom_label=None):
