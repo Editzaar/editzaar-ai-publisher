@@ -321,7 +321,13 @@ STRICT HUMANIZED WRITING RULES (ANTI-AI DETECTION PROTOCOL):
    - Avoid rigid "Rule of Three" bullet lists. If there are 4 points, list 4. If there are 2 points, list 2. Do not force every section into exactly three bullets.
 
 5. CONTENT DEPTH:
-   - Thorough and technical (1,200 to 1,800+ words). Name real software, exact dB numbers, frame rates, keyframes, real-world case studies, and concrete practical steps.
+   - Thorough and actionable (1,200 to 1,800+ words). Name real software, exact settings, real-world case studies, and concrete practical steps.
+
+6. SIMPLE LANGUAGE (ACCESSIBLE TO EVERYONE):
+   - Use simple, direct, plain English that anyone can easily understand.
+   - Avoid fancy, academic, or overly complex words. No high-brow jargon.
+   - If you mention a technical term, explain it immediately with an everyday, real-life example or analogy.
+   - Make it feel like a helpful friend explaining how things work in clear, friendly steps.
 
 Strict Output Format: Respond with valid JSON only containing these keys:
 - "title": Clean title ending with " | Editzaar"
