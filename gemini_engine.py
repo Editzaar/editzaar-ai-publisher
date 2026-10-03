@@ -321,7 +321,7 @@ Write the full JSON object containing the complete, deeply structured masterclas
     img_base64 = base64.b64encode(img_bytes).decode('utf-8')
     image_data_uri = f"data:image/jpeg;base64,{img_base64}"
 
-    # Assemble Full Blogger HTML
+    # Assemble Full Blogger HTML with Rich Action Hub Elements
     full_html = f"""
 <!-- SEO OpenGraph Meta -->
 <meta name="description" content="{search_desc}" />
@@ -330,14 +330,61 @@ Write the full JSON object containing the complete, deeply structured masterclas
 <meta property="og:type" content="article" />
 <meta name="twitter:card" content="summary_large_image" />
 
+<!-- Structured Data (Article & FAQPage) -->
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{title}",
+  "description": "{search_desc}",
+  "inLanguage": "en",
+  "author": {{
+    "@type": "Organization",
+    "name": "Editzaar"
+  }},
+  "publisher": {{
+    "@type": "Organization",
+    "name": "Editzaar",
+    "url": "https://blog.editzaar.in/"
+  }}
+}}
+</script>
+
 <!-- Custom 3D Dynamic Cover Banner (100% Reliable, Zero Broken Links) -->
-<div style="text-align: center; margin-bottom: 30px;">
+<div style="text-align: center; margin-bottom: 24px;">
     <img src="{image_data_uri}" 
          alt="{title}" 
-         style="width: 100%; max-height: 560px; object-fit: cover; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+         style="width: 100%; max-height: 560px; object-fit: cover; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.18);" />
 </div>
 
+<!-- ⚡ 60-Second Fast-Track Executive Summary -->
+<div style="background: #f8fafc; border-left: 5px solid #0284c7; border-radius: 8px; padding: 18px 22px; margin-bottom: 28px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+    <div style="font-size: 13px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">⚡ 60-Second Fast-Track</div>
+    <p style="margin: 0; color: #334155; font-size: 16px; line-height: 1.6;">
+        {search_desc}
+    </p>
+</div>
+
+<!-- Main Body -->
+<div style="font-size: 17px; line-height: 1.8; color: #1e293b;">
 {html_body}
+</div>
+
+<!-- 📲 1-Click WhatsApp Share Button -->
+<div style="text-align: center; margin: 30px 0;">
+    <a href="https://api.whatsapp.com/send?text={title}%20-%20Read%20more%20on%20Editzaar:%20https://blog.editzaar.in/" target="_blank" rel="noopener noreferrer" style="background-color: #25D366; color: #ffffff; padding: 12px 28px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);">
+        <span>📲</span> Share this Masterclass on WhatsApp
+    </a>
+</div>
+
+<!-- Internal Reading Recommendation Cluster -->
+<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px; margin: 30px 0;">
+    <h4 style="margin: 0 0 10px 0; color: #0f172a; font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Recommended Next Reads on Editzaar:</h4>
+    <ul style="margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.6;">
+        <li style="margin-bottom: 6px;"><a href="https://blog.editzaar.in/" style="color: #0284c7; font-weight: 700; text-decoration: none;">Explore High-Retention Video Editing & Motion Guides →</a></li>
+        <li style="margin-bottom: 6px;"><a href="https://blog.editzaar.in/" style="color: #0284c7; font-weight: 700; text-decoration: none;">Discover AI Growth Strategies & Web Development Hacks →</a></li>
+    </ul>
+</div>
 
 <hr style="border: 0; height: 1px; background: #eee; margin: 35px 0;"/>
 
